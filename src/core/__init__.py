@@ -1,4 +1,4 @@
-from .item import ItemInterface 
+from .item import Item, ItemException 
 from .player import Player, PlayerException
 from .shell import ShellInterface, LiveShell, BlankShell
 from .shotgun import Shotgun, ShotgunException
@@ -6,7 +6,8 @@ from .shotgun import Shotgun, ShotgunException
 
 __all__ = [
 
-    "ItemInterface",
+    "Item",
+    "ItemException",
     "Player",
     "PlayerException",
     "ShellInterface",
