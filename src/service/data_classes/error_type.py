@@ -2,11 +2,15 @@ from enum import Enum, auto
 
 class ErrorType(Enum):
 
+    INCORRECT_COMMAND = 2001
+
     UNKNOWN_PLAYER = 1001
+    INSUFFICIENT_PLAYERS = auto()
     EMPTY_MAGAZINE = auto()
     ITEM_NOT_IN_INVENTORY = auto()
     HAND_CUFFING_YOURSELF = auto()
     ALREADY_CUFFED = auto()
+    INVALID_SHELL_STATE = auto()
 
     
     

@@ -43,6 +43,10 @@ class PlayerTurnManager:
     @property
     def all_player(self) -> list[Player]:
         return self._order
+    
+    def is_player_sufficient(self) -> bool: 
+        return len(self._order) < 2
+        
 
     def is_player_in_order(self, player_id: int) -> bool: 
         

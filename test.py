@@ -1,6 +1,6 @@
 from src.service.session import Session
-from src.service.commands.items.twofold import TwoFoldItemCommand
-from src.service.commands.shoot import ShootCommand
+from src.service.commands.items import TwoFoldItemCommand
+from src.service.commands.core_game import ShootCommand
 from src.core import Player, LiveShell, BlankShell, ItemType
 
 session = Session()
@@ -12,7 +12,7 @@ session.shotgun.load_shells([LiveShell(), BlankShell(), LiveShell(), BlankShell(
 session.player_turn_manager.current_player.inventory.add_item(item=ItemType.TWO_FOLD)
 
 itemcmd = TwoFoldItemCommand()
-shootcmd= ShootCommand(target_id=session.player_turn_manager.current_player.id)
+shootcmd= ShootCommand(target_player_id=session.player_turn_manager.current_player.id)
 
 result_one = itemcmd.execute(session=session)
 result_two = shootcmd.execute(session=session)

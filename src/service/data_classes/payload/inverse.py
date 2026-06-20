@@ -3,7 +3,8 @@ from ....core import ItemType
 from attrs import define
 
 @define(kw_only=True)
-class HandCuffPayload(ItemPayloadInterface):
-
+class InversePayload(ItemPayloadInterface):
+    
     item_type: ItemType
-    ... # code to be written
+    previous_shell_damage: int 
+    new_shell_damage: int 

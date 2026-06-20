@@ -1,6 +1,8 @@
-from .interface import PayLoadInterface
+from .interface import ItemPayloadInterface
+from ....core import ItemType
 from attrs import define
 
 @define(kw_only=True)
-class ShellLoadedPayload(PayLoadInterface):
+class ShellLoadedPayload(ItemPayloadInterface):
+    item_type: ItemType
     shell_loaded_damage: int
