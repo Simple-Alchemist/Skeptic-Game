@@ -1,9 +1,9 @@
 from attrs import define, field
 
-from ...session import Session
+from ....session import Session
 from interface import ItemCommandInterface
-from ....core import ItemType
-from ...data_classes import ActionResult, ActionType, ShellLoadedPayload
+from .....core import ItemType
+from ....data_classes import ActionResult, ActionType, ShellLoadedPayload
 
 @define(kw_only=True)
 class PeekItemCommand(ItemCommandInterface):

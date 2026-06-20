@@ -29,16 +29,21 @@ class PlayerTurnManager:
         except (IndexError, ZeroDivisionError):
 
             raise PlayerException("Couldn't retrieve the current player.")
+        
+    @property
+    def next_player(self) -> Player:
+
+        try: 
+            return self._order[((self._pointer+1)%len(self._order))]
+        
+        except (IndexError, ZeroDivisionError):
+
+            raise PlayerException("Couldn't retrieve the next player.")
 
     @property
     def turn_order(self) -> tuple[Player, ...]:
 
         return tuple(self._order)
-    
-    @property
-    def round_number(self) -> int:
-        
-        return self._pointer//len(self._order)
     
     @property
     def all_player(self) -> list[Player]:
@@ -78,7 +83,10 @@ class PlayerTurnManager:
 
     def advance(self, turns: int = 1) -> None:
 
-        self._pointer += turns 
+        if turns <= 0:
+           raise PlayerException("Turns Can't be Less than equal 0")
+
+        self._pointer += turns*self._direction
 
     def reverse_order(self) -> None:
  

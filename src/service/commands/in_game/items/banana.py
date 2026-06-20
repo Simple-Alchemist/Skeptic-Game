@@ -1,10 +1,10 @@
 from attrs import define, field
 
-from ...session import Session
-from ...data_classes import ActionResult, ActionType, ErrorType
+from ....session import Session
+from ....data_classes import ActionResult, ActionType, ErrorType
 from interface import CommandInterface
 
-from ....core import  ItemType
+from .....core import  ItemType
 
 @define(kw_only=True)
 class BananaItemCommand(CommandInterface):

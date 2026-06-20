@@ -2,8 +2,8 @@
 
 from attrs import define, field
 
-from ...session import Session
-from ...data_classes import ActionResult, ActionType, ErrorType
+from ....session import Session
+from ....data_classes import ActionResult, ActionType, ErrorType
 from interface import TargetPlayerCommandInterface, ItemCommandInterface
 from core import ItemException,ItemType 
 

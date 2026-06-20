@@ -10,4 +10,8 @@ class ItemType(IntEnum):
     BANANA = auto() #Gives Health 
     BAISTA_DAUSTO = auto() #Killer QUEEN!!!!!!!!
 
+    @classmethod
+    def item_available(cls):
+        return tuple(cls)
+
 

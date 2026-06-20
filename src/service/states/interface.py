@@ -5,15 +5,17 @@ from typing import Protocol, runtime_checkable
 
 from ..commands.interface import CommandInterface
 from ..session import Session
-from ..data_classes import ActionResult
+from ..data_classes import ActionResult, States
 
 @runtime_checkable
 class StateInterface(Protocol): 
 
-    def handle(self, command: CommandInterface, session: Session) -> ActionResult: 
+    @property
+    def name(self) -> States:
         ...
 
-    # in the handle method, always check whether the current player is hand-cuffed? or dead? 
+    def handle(self, command: CommandInterface, session: Session) -> ActionResult: 
+        ...
 
 
 

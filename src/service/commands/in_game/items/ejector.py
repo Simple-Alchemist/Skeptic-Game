@@ -1,10 +1,10 @@
 from attrs import define, field
 
-from ...session import Session
+from ....session import Session
 
 from interface import ItemCommandInterface
-from ...data_classes import ActionResult, ActionType,  EjectorPayload
-from ....core import ItemType
+from ....data_classes import ActionResult, ActionType,  EjectorPayload
+from .....core import ItemType
 
 @define(kw_only=True)
 class EjectorItemCommand(ItemCommandInterface):

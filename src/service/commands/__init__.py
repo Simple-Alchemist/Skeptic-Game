@@ -2,16 +2,14 @@
 
 from __future__ import annotations
 
-from .interface import CommandInterface
-from .interface import ItemCommandInterface
-from .interface import TargetPlayerCommandInterface
-from .item_interface import ItemCommandInterface
+from .interface import CommandInterface, InGameCommand, AboveGameCommand, ItemCommandInterface, TargetPlayerCommandInterface
 
 
 __all__ = [
     "CommandInterface",
     "ItemCommandInterface",
-    "ItemCommandInterface",
     "TargetPlayerCommandInterface",
+    "InGameCommand",
+    "AboveGameCommand"
 
 ]

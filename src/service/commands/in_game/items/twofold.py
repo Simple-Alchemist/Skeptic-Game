@@ -1,9 +1,9 @@
 from attrs import define, field
 
-from ...session import Session
-from ...data_classes import ActionResult, ActionType, ShellLoadedPayload
-from ..interface import ItemCommandInterface
-from ....core import ShellInterface, ItemType
+from ....session import Session
+from ....data_classes import ActionResult, ActionType, ShellLoadedPayload
+from ...interface import ItemCommandInterface
+from .....core import ShellInterface, ItemType
 
 
 @define(kw_only=True)

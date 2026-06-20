@@ -1,28 +1,41 @@
-from typing import Protocol, runtime_checkable
+from typing import Protocol, runtime_checkable, TYPE_CHECKING
 
-from ..session import Session
-from ..data_classes import ActionResult
+if TYPE_CHECKING:
+    from ..session import Session
+    from ..data_classes import ActionResult
+
 from ...core import ItemType
 
 
 @runtime_checkable
 class CommandInterface(Protocol):
 
-    def execute(self, session: Session) -> ActionResult:
+    def execute(self, session: "Session") -> "ActionResult":
         ...
 
 
 @runtime_checkable
-class ItemCommandInterface(CommandInterface, Protocol):
+class InGameCommand(CommandInterface, Protocol):
+    ...
 
-    _item_type: ItemType 
 
-    @property 
+@runtime_checkable
+class AboveGameCommand(CommandInterface, Protocol):
+    ...
+
+
+@runtime_checkable
+class ItemCommandInterface(InGameCommand, Protocol):
+
+    _item_type: ItemType
+
+    @property
     def item_type(self) -> ItemType:
         ...
 
+
 @runtime_checkable
-class TargetPlayerCommandInterface(CommandInterface, Protocol):
+class TargetPlayerCommandInterface(InGameCommand, Protocol):
 
     _target_player_id: int
 

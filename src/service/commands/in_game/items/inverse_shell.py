@@ -2,10 +2,10 @@
 
 from attrs import define, field
 
-from ...session import Session
-from ..interface import ItemCommandInterface
-from ...data_classes import ActionResult, ActionType, ErrorType, InversePayload
-from ....core import LiveShell, BlankShell, ShellInterface, ItemException, ItemType
+from ....session import Session
+from ...interface import ItemCommandInterface
+from ....data_classes import ActionResult, ActionType, ErrorType, InversePayload
+from .....core import LiveShell, BlankShell, ShellInterface, ItemException, ItemType
 
 @define(kw_only=True)
 class InverseShellItemCommand(ItemCommandInterface):
@@ -46,7 +46,7 @@ class InverseShellItemCommand(ItemCommandInterface):
 
         return ActionResult(
 
-            action_type=ActionType.LOADING_DOUBLE_DAMAGE_SHELL,
+            action_type=ActionType.USE_ITEM,
             is_success=True,
             payload=InversePayload(item_type=self._item_type, previous_shell_damage=previous_shell.damage, new_shell_damage=new_shell.damage)
             # in the payload, show the previous shell 
