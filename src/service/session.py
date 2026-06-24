@@ -3,7 +3,8 @@ from attrs import define, field
 from ..core import Shotgun, PlayerTurnManager, Player, PlayerException
 from .states import StateInterface, RoundManagerState, ResolutionState, PlayState, GameOverState
 from .commands.interface import CommandInterface 
-from .data_classes import Result, States, GameSnapshot, PlayerSnapshot, TurnSnapshot
+from .commands import ShotgunLoadCommand
+from .data_classes import Result, States, GameSnapshot, PlayerSnapshot, TurnSnapshot, ShotgunSnapshot
 
 @define(kw_only=True)
 class Session:
@@ -58,6 +59,7 @@ class Session:
             ) for p in self.player_turn_manager.all_player
         )
 
+
         return GameSnapshot(
             current_state_name=self.current_state_name,
             turn_data=TurnSnapshot(
@@ -66,11 +68,16 @@ class Session:
                 pointer=self.player_turn_manager.pointer
             ),
             player_datas=player_datas,
-            magazine=self.shotgun.magazine_order
+            shotgun_data=ShotgunSnapshot(
+                 lives=sum(shell.damage >= 1 for shell in self.shotgun.magazine_order),
+                 blanks=sum(shell.damage < 1 for shell in self.shotgun.magazine_order)
+                 )
         )
 
     def import_game_snapshot(self, snapshot: GameSnapshot) -> None:
-        
+
+        self.change_state(new_state_enum=States.ROUND_MANAGER, trigger_enter=False)
+
         ptm = self.player_turn_manager
         shotgun = self.shotgun
 
@@ -78,13 +85,13 @@ class Session:
         ptm.clear_reset_order()
 
         for player_data in snapshot.player_datas: 
+            new_player = Player(
+
+                            id=player_data.id,
+                            health=player_data.health
+                        )
             
-            ptm.add_player(
-                player_obj=Player(
-                    id=player_data.id,
-                    health=player_data.health
-                    )
-                )
+            ptm.add_player(player_obj=new_player)
             
             new_player = ptm.get_player(player_id=player_data.id)
 
@@ -94,7 +101,12 @@ class Session:
             new_player.inventory.add_items(player_data.inventory)
 
         shotgun.clear_magazine()
-        shotgun.load_shells(snapshot.magazine)
+
+        self.game_command(command=ShotgunLoadCommand(
+                                        lives=snapshot.shotgun_data.lives,
+                                        blanks=snapshot.shotgun_data.blanks
+                                        )
+                                )
 
         new_state_enum: States = snapshot.current_state_name
         
@@ -112,24 +124,13 @@ class Session:
     #Export Multiple Player in Tuple
     def export_players_snapshot(self, player_ids: tuple[int,...]) -> tuple[PlayerSnapshot,...]:
         
-        ptm = self.player_turn_manager
-        player_snaps: list[PlayerSnapshot] = list() 
+        ptm = self.player_turn_manager 
 
         existing_ids =  {player.id for player in ptm.all_player}
         if not set(player_ids).issubset(existing_ids):
             raise PlayerException(f'{player_ids} are not present in player turn manager')
 
-        for player_id in player_ids: 
-            for player in ptm.all_player: 
-                if player.id == player_id: 
-                    player_snaps.append(
-                        PlayerSnapshot(
-                            id=player_id,
-                            health=player.health,
-                            inventory=player.inventory.items_tuple,
-                            is_cuffed=player.is_cuffed
-                            )
-                        )
+                        
         return tuple(
                 [
                     PlayerSnapshot(
@@ -151,11 +152,11 @@ class Session:
 
         for player_data in player_snaps: 
 
-            target_player: Player | None = None
+            target_player: Player = Player(id=player_data.id, health=player_data.health)
 
             if not ptm.is_player_in_order(player_id=player_data.id):
 
-                ptm.add_player(player_obj=Player(id=player_data.id, health=player_data.health))
+                ptm.add_player(player_obj=target_player)
 
             target_player = ptm.get_player(player_id=player_data.id) 
     
@@ -174,9 +175,6 @@ class Session:
     def save_history(self):
 
         self._history.append(self.export_game_snapshot())
-
-    def save_player_activity(self):
-        ... #also create a get method
 
     def leap_back(self, leap: int = 3):
 

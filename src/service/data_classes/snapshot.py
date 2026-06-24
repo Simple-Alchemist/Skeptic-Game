@@ -19,12 +19,17 @@ class TurnSnapshot:
     pointer: int
 
 @define(kw_only=True, frozen=True)
+class ShotgunSnapshot: 
+    lives: int 
+    blanks: int
+
+@define(kw_only=True, frozen=True)
 class GameSnapshot:
     
     current_state_name: States 
     turn_data: TurnSnapshot
     player_datas: tuple[PlayerSnapshot,...] 
-    magazine: tuple[ShellInterface, ...]
+    shotgun_data: ShotgunSnapshot
    
 
 

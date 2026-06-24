@@ -13,7 +13,7 @@ from .payload import (
     ExportGameSnapshotPayload, 
     ExportPlayerSnapshotPayload
 )
-from .snapshot import GameSnapshot, PlayerSnapshot, TurnSnapshot
+from .snapshot import GameSnapshot, PlayerSnapshot, TurnSnapshot, ShotgunSnapshot
 
 
 __all__ = [
@@ -26,6 +26,7 @@ __all__ = [
     "GameSnapshot",
     "PlayerSnapshot",
     "TurnSnapshot",
+    "ShotgunSnapshot",
 
     "ShootPayload",
     "ShellPayload",

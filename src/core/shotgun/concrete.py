@@ -26,7 +26,7 @@ class Shotgun:
     def is_magazine_empty(self) -> bool: 
 
         return self.mag_size <= 0
-
+    
     def current_loaded_shell(self) -> ShellInterface:
 
         if self.is_magazine_empty: 

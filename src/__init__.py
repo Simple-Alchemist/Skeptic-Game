@@ -1,5 +1,6 @@
 from .service import Session
 from .service.commands import *
-from .service import ActionType, ErrorType, States
 from .service.data_classes import *
+from .service.states import *
+from .core import ItemType, LiveShell, BlankShell, ShellInterface
 
